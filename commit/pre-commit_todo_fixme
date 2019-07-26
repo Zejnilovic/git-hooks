@@ -1,0 +1,21 @@
+#!/bin/zsh
+# Pre Commit check to see if there are any TODO or FIXME comments
+# left in the code. The commit process will be exited untill the
+# comments are removed/fixed
+# Skipps dot files
+
+ABUSE_FOUND="no"
+
+ABUSED_FILES=$(grep -rnE "(TODO|FIXME)" ./* | tr ':' ' ' | awk '{ print "File: " $1 " on line: " $2 }')
+
+if [ ! -z $ABUSED_FILES ]; then
+    echo "Found TODO or FIXME in these files:"
+    for abused in $ABUSED_FILES; do
+        echo $abused
+        TODO_FOUND="yes"
+    done
+    exit 1
+fi
+
+exit 0
+

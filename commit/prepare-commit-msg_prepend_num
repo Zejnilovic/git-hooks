@@ -1,0 +1,25 @@
+#!/bin/bash
+# Prepend github issue number from branch name to the commit message
+# Expects a branch name like "feature/123-this-repairs-something" and 
+# will extract the number and append it liek "#123 rest of the message"
+#
+# BRANCHES_TO_IGNORE have this feature turned off
+
+if [ -z "$BRANCHES_TO_IGNORE" ]; then
+  BRANCHES_TO_IGNORE="(master|develop|gh-pages|release-*|patch-*)"
+fi
+
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+if [[ "$BRANCH" =~ ^$BRANCHES_TO_IGNORE ]]; then
+  exit 0
+fi 
+
+TRIMMED=$(echo $BRANCH | ggrep -P '(?<=\/)([0-9]+)' -o)
+
+# If it isn't excluded, prepend the part that interests us to the given commit message
+if [ -n "$BRANCH" ]; then
+  sed -i.bak -e "1s/^/#$TRIMMED /" $1
+fi
+
+exit 0
