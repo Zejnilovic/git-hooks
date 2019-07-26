@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 # Stops you from force pushing to the list of PROTECTED_BRANCHES
 
 BRANCH=`git rev-parse --abbrev-ref HEAD`

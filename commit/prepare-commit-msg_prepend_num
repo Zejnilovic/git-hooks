@@ -1,9 +1,11 @@
-#!/bin/bash
+#!/bin/zsh
 # Prepend github issue number from branch name to the commit message
 # Expects a branch name like "feature/123-this-repairs-something" and 
 # will extract the number and append it liek "#123 rest of the message"
 #
 # BRANCHES_TO_IGNORE have this feature turned off
+# Expects ggrep installed if you are on MacOS, if you are not, just
+# change the ggrep to grep.
 
 if [ -z "$BRANCHES_TO_IGNORE" ]; then
   BRANCHES_TO_IGNORE="(master|develop|gh-pages|release-*|patch-*)"
