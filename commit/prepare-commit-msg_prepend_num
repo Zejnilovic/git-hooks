@@ -11,16 +11,17 @@ if [ -z "$BRANCHES_TO_IGNORE" ]; then
   BRANCHES_TO_IGNORE="(master|develop|gh-pages|release-*|patch-*)"
 fi
 
-BRANCH=`git rev-parse --abbrev-ref HEAD`
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 if [[ "$BRANCH" =~ ^$BRANCHES_TO_IGNORE ]]; then
   exit 0
 fi 
 
 TRIMMED=$(echo $BRANCH | ggrep -P '(?<=\/)([0-9]+)' -o)
+FILE=$(cat $1)
 
 # If it isn't excluded, prepend the part that interests us to the given commit message
-if [ -n "$BRANCH" ]; then
+if [[ -n "$BRANCH" ]] && [[ ! "$FILE" == \#$TRIMMED* ]] && [[ ! "$FILE" == --fixup* ]] && [[ ! "$FILE" == --autosquash* ]]; then
   sed -i.bak -e "1s/^/#$TRIMMED /" $1
 fi
 
