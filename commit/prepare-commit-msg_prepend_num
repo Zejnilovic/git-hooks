@@ -21,7 +21,7 @@ TRIMMED=$(echo $BRANCH | ggrep -P '(?<=\/)([0-9]+)' -o)
 FILE=$(cat $1)
 
 # If it isn't excluded, prepend the part that interests us to the given commit message
-if [[ -n "$BRANCH" ]] && [[ ! "$FILE" == \#$TRIMMED* ]] && [[ ! "$FILE" == --fixup* ]] && [[ ! "$FILE" == --autosquash* ]]; then
+if [[ -n "$BRANCH" ]] && [[ ! "$FILE" == \#$TRIMMED* ]] && [[ ! "$FILE" == fixup!* ]] && [[ ! "$FILE" == squash!* ]]; then
   sed -i.bak -e "1s/^/#$TRIMMED /" $1
 fi
 
